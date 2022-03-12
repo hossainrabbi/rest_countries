@@ -8,7 +8,9 @@ export default function useCountries() {
   const fetchFunction = async () => {
     try {
       setLoading(true);
-      const response = await fetch(process.env.REACT_APP_REST_COUNTRIES_API);
+      const response = await fetch(
+        `${process.env.REACT_APP_REST_COUNTRIES_API}`
+      );
       const data = await response.json();
       setCountries(data);
       setError(false);

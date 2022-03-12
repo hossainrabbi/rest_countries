@@ -10,8 +10,6 @@ export default function Countries() {
     return <Spinner className="mt-5 text-center" animation="grow" />;
   }
 
-  console.log(error, countries);
-
   return (
     <section className="mt-4">
       {error && (
