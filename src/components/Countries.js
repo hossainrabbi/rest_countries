@@ -32,18 +32,27 @@ export default function Countries() {
           </Col>
         </Row>
       </Navbar>
-      {loading && <Loading />}
-      {error && (
-        <h2 className="text-danger text-center">Oh snap! You got an error!</h2>
-      )}
-      {!loading && !error && countries.length > 0 && (
-        <Row>
-          {countries.map((country) => (
-            <Col md={4} className="mb-4" key={country.name.official}>
-              <Country country={country} />
-            </Col>
-          ))}
-        </Row>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {error && (
+            <h2 className="text-danger text-center">
+              Oh snap! You got an error!
+            </h2>
+          )}
+          {!loading && !error && countries.length > 0 ? (
+            <Row>
+              {countries.map((country) => (
+                <Col md={4} className="mb-4" key={country.name.official}>
+                  <Country country={country} />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <h3 className="text-danger text-center mt-3">Data Not Found!</h3>
+          )}
+        </>
       )}
     </section>
   );

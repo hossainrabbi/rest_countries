@@ -6,6 +6,7 @@ export default function useCountries() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchCountries, setSearchCountries] = useState('');
+  const [searchCountriesData, setSearchCountriesData] = useState([]);
   const [selectRegion, setSelectRegion] = useState('All');
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function useCountries() {
   }, [searchCountries]);
 
   useEffect(() => {
-    const filterSearch = countriesData.filter((item) => {
+    const filterSearch = searchCountriesData.filter((item) => {
       if (selectRegion.toLowerCase() === 'all') {
         return item.region;
       } else {
@@ -39,22 +40,21 @@ export default function useCountries() {
     });
 
     setCountries(filterSearch);
-  }, [countriesData, selectRegion]);
+  }, [searchCountriesData, selectRegion]);
 
   useEffect(() => {
     const filterSearch = countriesData.filter((item) =>
       item.name.common.toLowerCase().includes(searchCountries.toLowerCase())
     );
 
-    setCountries(filterSearch);
+    setSearchCountriesData(filterSearch);
   }, [countriesData, searchCountries]);
-
-  console.log(countries.length);
 
   return {
     countries,
     loading,
     error,
+    searchCountries,
     setSearchCountries,
     selectRegion,
     setSelectRegion,
