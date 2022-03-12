@@ -1,5 +1,10 @@
 import React from 'react';
+import Countries from './components/Countries';
 
 export default function App() {
-  return <div>App</div>;
+  return (
+    <div>
+      <Countries />
+    </div>
+  );
 }
