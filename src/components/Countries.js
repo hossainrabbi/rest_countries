@@ -1,13 +1,14 @@
 import React from 'react';
-import { Col, Row, Spinner } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import useCountries from '../hooks/useCountries';
 import Country from './Country';
+import Loading from './Loading';
 
 export default function Countries() {
   const { loading, error, countries } = useCountries();
 
   if (loading) {
-    return <Spinner className="mt-5 text-center" animation="grow" />;
+    return <Loading />;
   }
 
   return (
