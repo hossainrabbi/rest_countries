@@ -3,16 +3,15 @@ import { Col, Row } from 'react-bootstrap';
 import useCountries from '../hooks/useCountries';
 import Country from './Country';
 import Loading from './Loading';
+import Search from './Search';
 
 export default function Countries() {
-  const { loading, error, countries } = useCountries();
-
-  if (loading) {
-    return <Loading />;
-  }
+  const { loading, error, countries, setSearchCountries } = useCountries();
 
   return (
     <section className="mt-4">
+      <Search setSearchCountries={setSearchCountries} />
+      {loading && <Loading />}
       {error && (
         <h2 className="text-danger text-center">Oh snap! You got an error!</h2>
       )}
