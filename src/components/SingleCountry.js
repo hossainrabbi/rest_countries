@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Table } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Button, Col, Row, Table } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 import useCountries from '../hooks/useCountries';
 import Loading from './Loading';
 
@@ -8,6 +8,8 @@ export default function SingleCountry() {
   const [findCountry, setFindCountry] = useState(null);
   const { countries, loading, error } = useCountries();
   const { countryName } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     setFindCountry(
       countries.find((country) => country.name.common === countryName)
@@ -32,6 +34,9 @@ export default function SingleCountry() {
               src={findCountry.flags.svg}
               alt={findCountry.name.common}
             />
+            <Button className="mt-4" onClick={() => navigate(-1)}>
+              Go Back
+            </Button>
           </Col>
           <Col md={6}>
             <Table>
