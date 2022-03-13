@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function useCountries() {
+export default function useCountries(maxPopulation) {
   const [countriesData, setCountriesDada] = useState([]);
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -8,6 +8,7 @@ export default function useCountries() {
   const [searchCountries, setSearchCountries] = useState('');
   const [searchCountriesData, setSearchCountriesData] = useState([]);
   const [selectRegion, setSelectRegion] = useState('All');
+  const [totalPopulationArray, setTotalPopulationArray] = useState([]);
 
   useEffect(() => {
     const fetchFunction = async () => {
@@ -31,7 +32,7 @@ export default function useCountries() {
   }, [searchCountries]);
 
   useEffect(() => {
-    const filterSearch = searchCountriesData.filter((item) => {
+    const filterRegion = searchCountriesData.filter((item) => {
       if (selectRegion.toLowerCase() === 'all') {
         return item.region;
       } else {
@@ -39,8 +40,15 @@ export default function useCountries() {
       }
     });
 
-    setCountries(filterSearch);
+    setCountries(filterRegion);
   }, [searchCountriesData, selectRegion]);
+
+  useEffect(() => {
+    const filterRange = searchCountriesData.filter(
+      (item) => item.population > maxPopulation
+    );
+    setCountries(filterRange);
+  }, [searchCountriesData, maxPopulation]);
 
   useEffect(() => {
     const filterSearch = countriesData.filter((item) =>
@@ -50,6 +58,12 @@ export default function useCountries() {
     setSearchCountriesData(filterSearch);
   }, [countriesData, searchCountries]);
 
+  useEffect(() => {
+    const populationsArray = [];
+    countriesData.forEach((item) => populationsArray.push(item.population));
+    setTotalPopulationArray(populationsArray);
+  }, [countriesData]);
+
   return {
     countries,
     loading,
@@ -58,5 +72,6 @@ export default function useCountries() {
     setSearchCountries,
     selectRegion,
     setSelectRegion,
+    totalPopulationArray,
   };
 }

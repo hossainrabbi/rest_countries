@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Navbar, Row } from 'react-bootstrap';
 import useCountries from '../hooks/useCountries';
 import Country from './Country';
+import FilterRange from './FilterRange';
 import Loading from './Loading';
 import Search from './Search';
 import SelectRegion from './SelectRegion';
 
 export default function Countries() {
+  const [rangeValue, setRangeValue] = useState(0);
   const {
     loading,
     error,
@@ -14,7 +16,16 @@ export default function Countries() {
     setSearchCountries,
     selectRegion,
     setSelectRegion,
-  } = useCountries();
+    totalPopulationArray,
+  } = useCountries(rangeValue);
+
+  const maxPopulation =
+    totalPopulationArray.length > 0
+      ? Math.max(...totalPopulationArray) - 1
+      : 10000000;
+
+  const minPopulation =
+    totalPopulationArray.length > 0 ? Math.min(...totalPopulationArray) : 0;
 
   return (
     <section className="mt-4">
@@ -23,7 +34,15 @@ export default function Countries() {
           <Col md={4}>
             <Search setSearchCountries={setSearchCountries} />
           </Col>
-          <Col md={6} />
+          <Col md={4}>
+            <FilterRange
+              maxPopulation={maxPopulation}
+              minPopulation={minPopulation}
+              rangeValue={rangeValue}
+              setRangeValue={setRangeValue}
+            />
+          </Col>
+          <Col md={2} />
           <Col md={2}>
             <SelectRegion
               selectRegion={selectRegion}
