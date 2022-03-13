@@ -6,6 +6,7 @@ import FilterRange from './FilterRange';
 import Loading from './Loading';
 import Search from './Search';
 import SelectRegion from './SelectRegion';
+import SelectSort from './SelectSort';
 
 export default function Countries() {
   const [rangeValue, setRangeValue] = useState(0);
@@ -17,6 +18,8 @@ export default function Countries() {
     selectRegion,
     setSelectRegion,
     totalPopulationArray,
+    selectSort,
+    setSelectSort,
   } = useCountries(rangeValue);
 
   const maxPopulation =
@@ -42,7 +45,9 @@ export default function Countries() {
               setRangeValue={setRangeValue}
             />
           </Col>
-          <Col md={2} />
+          <Col md={2}>
+            <SelectSort selectSort={selectSort} setSelectSort={setSelectSort} />
+          </Col>
           <Col md={2}>
             <SelectRegion
               selectRegion={selectRegion}

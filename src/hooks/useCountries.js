@@ -8,8 +8,10 @@ export default function useCountries(maxPopulation) {
   const [searchCountries, setSearchCountries] = useState('');
   const [searchCountriesData, setSearchCountriesData] = useState([]);
   const [selectRegion, setSelectRegion] = useState('All');
+  const [selectSort, setSelectSort] = useState('default');
   const [totalPopulationArray, setTotalPopulationArray] = useState([]);
 
+  // Fetch data from REST COUNTRIES API
   useEffect(() => {
     const fetchFunction = async () => {
       try {
@@ -31,6 +33,7 @@ export default function useCountries(maxPopulation) {
     fetchFunction();
   }, [searchCountries]);
 
+  // Filter data with select region
   useEffect(() => {
     const filterRegion = searchCountriesData.filter((item) => {
       if (selectRegion.toLowerCase() === 'all') {
@@ -43,6 +46,7 @@ export default function useCountries(maxPopulation) {
     setCountries(filterRegion);
   }, [searchCountriesData, selectRegion]);
 
+  // Filter data with input range
   useEffect(() => {
     const filterRange = searchCountriesData.filter(
       (item) => item.population > maxPopulation
@@ -50,6 +54,38 @@ export default function useCountries(maxPopulation) {
     setCountries(filterRange);
   }, [searchCountriesData, maxPopulation]);
 
+  // Sort data
+  useEffect(() => {
+    if (selectSort === 'aToZ') {
+      const sortedAtoZ = searchCountriesData.sort((a, b) => {
+        if (a.name.common < b.name.common) {
+          return -1;
+        }
+        if (a.name.common > b.name.common) {
+          return 1;
+        }
+        return 0;
+      });
+      setCountries(sortedAtoZ);
+    } else if (selectSort === 'zToA') {
+      const sortedZtoA = searchCountriesData.sort((a, b) => {
+        if (a.name.common < b.name.common) {
+          return 1;
+        }
+        if (a.name.common > b.name.common) {
+          return -1;
+        }
+        return 0;
+      });
+      setCountries(sortedZtoA);
+    } else if (selectSort === 'default') {
+      setCountries(searchCountriesData);
+    } else {
+      setCountries(searchCountriesData);
+    }
+  }, [searchCountriesData, selectSort]);
+
+  // Search with country name
   useEffect(() => {
     const filterSearch = countriesData.filter((item) =>
       item.name.common.toLowerCase().includes(searchCountries.toLowerCase())
@@ -58,6 +94,7 @@ export default function useCountries(maxPopulation) {
     setSearchCountriesData(filterSearch);
   }, [countriesData, searchCountries]);
 
+  // Filter all population & make an array
   useEffect(() => {
     const populationsArray = [];
     countriesData.forEach((item) => populationsArray.push(item.population));
@@ -73,5 +110,7 @@ export default function useCountries(maxPopulation) {
     selectRegion,
     setSelectRegion,
     totalPopulationArray,
+    selectSort,
+    setSelectSort,
   };
 }
