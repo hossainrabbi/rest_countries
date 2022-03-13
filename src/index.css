@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --light-body: #e7ebf0;
+  --white-color: #ffffff;
+  --dark-color: #242424;
+  --dark-body: #121212;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .image {
   height: 200px;
   object-fit: cover;
@@ -8,4 +21,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.navbar-brand {
+  font-family: 'Pacifico', cursive;
+}
+
+/*  */
+
+.btn {
+  background-color: #0091ea;
+  border-color: #0091ea;
+}
+
+.btn:hover {
+  background-color: #00b0ff;
+  border-color: #00b0ff;
+  color: #222;
 }

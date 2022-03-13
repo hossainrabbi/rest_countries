@@ -1,0 +1,7 @@
+.dark__brand {
+  color: var(--white-color) !important;
+}
+
+.light__brand {
+  color: var(--dark-color) !important;
+}

@@ -20,6 +20,7 @@ export default function Countries() {
     totalPopulationArray,
     selectSort,
     setSelectSort,
+    handleSort,
   } = useCountries(rangeValue);
 
   const maxPopulation =
@@ -32,12 +33,12 @@ export default function Countries() {
 
   return (
     <section className="mt-4">
-      <Navbar expand="lg">
+      <Navbar className="mb-4" expand="lg">
         <Row className="w-100">
           <Col md={4}>
             <Search setSearchCountries={setSearchCountries} />
           </Col>
-          <Col md={4}>
+          <Col md={3}>
             <FilterRange
               maxPopulation={maxPopulation}
               minPopulation={minPopulation}
@@ -45,8 +46,13 @@ export default function Countries() {
               setRangeValue={setRangeValue}
             />
           </Col>
+          <Col md={1} />
           <Col md={2}>
-            <SelectSort selectSort={selectSort} setSelectSort={setSelectSort} />
+            <SelectSort
+              selectSort={selectSort}
+              handleSort={handleSort}
+              setSelectSort={setSelectSort}
+            />
           </Col>
           <Col md={2}>
             <SelectRegion

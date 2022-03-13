@@ -11,25 +11,25 @@ export default function useCountries(maxPopulation) {
   const [selectSort, setSelectSort] = useState('default');
   const [totalPopulationArray, setTotalPopulationArray] = useState([]);
 
+  const fetchFunction = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_REST_COUNTRIES_API}`
+      );
+      const data = await response.json();
+
+      setCountriesDada(data);
+      setError(false);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
   // Fetch data from REST COUNTRIES API
   useEffect(() => {
-    const fetchFunction = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `${process.env.REACT_APP_REST_COUNTRIES_API}`
-        );
-        const data = await response.json();
-
-        setCountriesDada(data);
-        setError(false);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        setError(true);
-      }
-    };
-
     fetchFunction();
   }, [searchCountries]);
 
@@ -55,8 +55,10 @@ export default function useCountries(maxPopulation) {
   }, [searchCountriesData, maxPopulation]);
 
   // Sort data
-  useEffect(() => {
-    if (selectSort === 'aToZ') {
+  const handleSort = (e) => {
+    const { value } = e.target;
+    setSelectSort(value);
+    if (value === 'aToZ') {
       const sortedAtoZ = searchCountriesData.sort((a, b) => {
         if (a.name.common < b.name.common) {
           return -1;
@@ -67,7 +69,7 @@ export default function useCountries(maxPopulation) {
         return 0;
       });
       setCountries(sortedAtoZ);
-    } else if (selectSort === 'zToA') {
+    } else if (value === 'zToA') {
       const sortedZtoA = searchCountriesData.sort((a, b) => {
         if (a.name.common < b.name.common) {
           return 1;
@@ -78,12 +80,10 @@ export default function useCountries(maxPopulation) {
         return 0;
       });
       setCountries(sortedZtoA);
-    } else if (selectSort === 'default') {
-      setCountries(searchCountriesData);
     } else {
-      setCountries(searchCountriesData);
+      setCountries(countriesData);
     }
-  }, [searchCountriesData, selectSort]);
+  };
 
   // Search with country name
   useEffect(() => {
@@ -101,6 +101,8 @@ export default function useCountries(maxPopulation) {
     setTotalPopulationArray(populationsArray);
   }, [countriesData]);
 
+  // console.log(countries[0]?.name?.common);
+
   return {
     countries,
     loading,
@@ -112,5 +114,6 @@ export default function useCountries(maxPopulation) {
     totalPopulationArray,
     selectSort,
     setSelectSort,
+    handleSort,
   };
 }
