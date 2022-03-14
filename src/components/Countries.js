@@ -24,20 +24,20 @@ export default function Countries() {
 
   return (
     <section className="mt-4">
-      <Row className="w-100  mb-4">
-        <Col md={4}>
+      <Row className="w-100 justify-content-between ms-0">
+        <Col lg={4} md={6} className="mb-4">
           <Search setSearchCountries={setSearchCountries} />
         </Col>
-        <Col md={4}>
+        <Col lg={4} md={6} className="mb-4">
           <FilterRange
             rangeValue={rangeValue}
             handleRangeValue={handleRangeValue}
           />
         </Col>
-        <Col md={2}>
+        <Col lg={2} md={6} className="mb-4">
           <SelectSort selectSort={selectSort} handleSort={handleSort} />
         </Col>
-        <Col md={2}>
+        <Col lg={2} md={6} className="mb-4">
           <SelectRegion
             selectRegion={selectRegion}
             handleRegionChange={handleRegionChange}
@@ -56,7 +56,7 @@ export default function Countries() {
           {!loading && !error && countries.length > 0 ? (
             <Row>
               {countries.map((country) => (
-                <Col md={4} className="mb-4" key={country.name.official}>
+                <Col lg={4} md={6} className="mb-4" key={country.name.official}>
                   <Country country={country} />
                 </Col>
               ))}
