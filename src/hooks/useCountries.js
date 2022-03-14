@@ -43,7 +43,6 @@ export default function useCountries() {
     const filterRange = searchCountriesData.filter(
       (item) => item.population > rangeValue
     );
-    console.log(filterRange);
     setCountries(filterRange);
   }, [searchCountriesData, rangeValue]);
 
