@@ -75,8 +75,7 @@ export default function useCountries() {
       });
       setCountries(sortedZtoA);
     } else {
-      searchCountriesData.forEach((item) => item);
-      setCountries(searchCountriesData);
+      setCountries(countriesData);
     }
   };
 

@@ -1,9 +1,13 @@
 import React from 'react';
 import { Form, FormControl } from 'react-bootstrap';
 
-export default function Search({ searchCountries, setSearchCountries }) {
+export default function Search({
+  searchCountries,
+  setSearchCountries,
+  className,
+}) {
   return (
-    <Form className="d-flex">
+    <Form className={`d-flex ${className}`}>
       <FormControl
         type="search"
         placeholder="Search"

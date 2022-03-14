@@ -39,3 +39,16 @@ body {
   border-color: #00b0ff;
   color: #222;
 }
+
+/* Range Styles */
+.input-range {
+  margin-top: 10px;
+}
+
+.input-range__track {
+  background: #3f51b5;
+}
+
+.input-range__label-container {
+  color: #3f51b5;
+}

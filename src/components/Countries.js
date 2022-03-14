@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Navbar, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import useCountries from '../hooks/useCountries';
 import Country from './Country';
 import FilterRange from './FilterRange';
@@ -24,34 +24,26 @@ export default function Countries() {
 
   return (
     <section className="mt-4">
-      <Navbar expand="lg">
-        <Row className="w-100">
-          <Col md={4}>
-            <Search setSearchCountries={setSearchCountries} />
-          </Col>
-          <Col md={6} />
-          <Col md={2}>
-            <SelectRegion
-              selectRegion={selectRegion}
-              handleRegionChange={handleRegionChange}
-            />
-          </Col>
-        </Row>
-      </Navbar>
-      <Navbar className="mb-4" expand="lg">
-        <Row className="w-100">
-          <Col md={4}>
-            <FilterRange
-              rangeValue={rangeValue}
-              handleRangeValue={handleRangeValue}
-            />
-          </Col>
-          <Col md={6} />
-          <Col md={2}>
-            <SelectSort selectSort={selectSort} handleSort={handleSort} />
-          </Col>
-        </Row>
-      </Navbar>
+      <Row className="w-100  mb-4">
+        <Col md={4}>
+          <Search setSearchCountries={setSearchCountries} />
+        </Col>
+        <Col md={4}>
+          <FilterRange
+            rangeValue={rangeValue}
+            handleRangeValue={handleRangeValue}
+          />
+        </Col>
+        <Col md={2}>
+          <SelectSort selectSort={selectSort} handleSort={handleSort} />
+        </Col>
+        <Col md={2}>
+          <SelectRegion
+            selectRegion={selectRegion}
+            handleRegionChange={handleRegionChange}
+          />
+        </Col>
+      </Row>
       {loading ? (
         <Loading />
       ) : (
