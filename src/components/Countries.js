@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Col, Navbar, Row } from 'react-bootstrap';
 import useCountries from '../hooks/useCountries';
 import Country from './Country';
@@ -9,56 +9,46 @@ import SelectRegion from './SelectRegion';
 import SelectSort from './SelectSort';
 
 export default function Countries() {
-  const [rangeValue, setRangeValue] = useState(0);
   const {
     loading,
     error,
     countries,
     setSearchCountries,
     selectRegion,
-    setSelectRegion,
-    totalPopulationArray,
+    handleRegionChange,
     selectSort,
-    setSelectSort,
     handleSort,
-  } = useCountries(rangeValue);
-
-  const maxPopulation =
-    totalPopulationArray.length > 0
-      ? Math.max(...totalPopulationArray) - 1
-      : 10000000;
-
-  const minPopulation =
-    totalPopulationArray.length > 0 ? Math.min(...totalPopulationArray) : 0;
+    rangeValue,
+    handleRangeValue,
+  } = useCountries();
 
   return (
     <section className="mt-4">
-      <Navbar className="mb-4" expand="lg">
+      <Navbar expand="lg">
         <Row className="w-100">
           <Col md={4}>
             <Search setSearchCountries={setSearchCountries} />
           </Col>
-          <Col md={3}>
-            <FilterRange
-              maxPopulation={maxPopulation}
-              minPopulation={minPopulation}
-              rangeValue={rangeValue}
-              setRangeValue={setRangeValue}
-            />
-          </Col>
-          <Col md={1} />
-          <Col md={2}>
-            <SelectSort
-              selectSort={selectSort}
-              handleSort={handleSort}
-              setSelectSort={setSelectSort}
-            />
-          </Col>
+          <Col md={6} />
           <Col md={2}>
             <SelectRegion
               selectRegion={selectRegion}
-              setSelectRegion={setSelectRegion}
+              handleRegionChange={handleRegionChange}
             />
+          </Col>
+        </Row>
+      </Navbar>
+      <Navbar className="mb-4" expand="lg">
+        <Row className="w-100">
+          <Col md={4}>
+            <FilterRange
+              rangeValue={rangeValue}
+              handleRangeValue={handleRangeValue}
+            />
+          </Col>
+          <Col md={6} />
+          <Col md={2}>
+            <SelectSort selectSort={selectSort} handleSort={handleSort} />
           </Col>
         </Row>
       </Navbar>

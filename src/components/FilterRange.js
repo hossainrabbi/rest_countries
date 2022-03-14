@@ -1,19 +1,18 @@
 import React from 'react';
 import InputRange from 'react-input-range';
-import 'react-input-range/lib/css/index.css';
 
 export default function FilterRange({
   maxPopulation,
   minPopulation,
   rangeValue,
-  setRangeValue,
+  handleRangeValue,
 }) {
   return (
     <InputRange
-      maxValue={maxPopulation}
-      minValue={minPopulation}
+      maxValue={500000}
+      minValue={0}
       value={rangeValue}
-      onChange={(value) => setRangeValue(value)}
+      onChange={(value) => handleRangeValue(value)}
     />
   );
 }

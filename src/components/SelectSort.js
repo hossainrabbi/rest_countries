@@ -7,7 +7,7 @@ const sortSelect = [
   { name: 'Z to A', value: 'zToA' },
 ];
 
-export default function SelectSort({ selectSort, setSelectSort, handleSort }) {
+export default function SelectSort({ selectSort, handleSort }) {
   return (
     <Form.Select value={selectSort} onChange={handleSort}>
       {sortSelect.map((sortItem) => (

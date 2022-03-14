@@ -22,6 +22,8 @@ export default function SingleCountry() {
     return <Loading />;
   }
 
+  console.log(countries);
+
   return !loading && !error && countries.length > 0 && findCountry ? (
     <>
       <h1 className="text-center mt-3 mb-4">{findCountry.name.common}</h1>

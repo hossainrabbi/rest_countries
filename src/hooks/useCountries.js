@@ -1,63 +1,57 @@
 import { useEffect, useState } from 'react';
 
-export default function useCountries(maxPopulation) {
-  const [countriesData, setCountriesDada] = useState([]);
-  const [countries, setCountries] = useState([]);
+export default function useCountries() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [searchCountries, setSearchCountries] = useState('');
+  const [countriesData, setCountriesDada] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [searchCountriesData, setSearchCountriesData] = useState([]);
-  const [selectRegion, setSelectRegion] = useState('All');
+
+  const [searchCountries, setSearchCountries] = useState('');
+  const [selectRegion, setSelectRegion] = useState('all');
   const [selectSort, setSelectSort] = useState('default');
-  const [totalPopulationArray, setTotalPopulationArray] = useState([]);
-
-  const fetchFunction = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_REST_COUNTRIES_API}`
-      );
-      const data = await response.json();
-
-      setCountriesDada(data);
-      setError(false);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      setError(true);
-    }
-  };
+  const [rangeValue, setRangeValue] = useState(0);
 
   // Fetch data from REST COUNTRIES API
   useEffect(() => {
+    const fetchFunction = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `${process.env.REACT_APP_REST_COUNTRIES_API}`
+        );
+        const data = await response.json();
+
+        setCountriesDada(data);
+        setError(false);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        setError(true);
+      }
+    };
+
     fetchFunction();
   }, [searchCountries]);
 
-  // Filter data with select region
-  useEffect(() => {
-    const filterRegion = searchCountriesData.filter((item) => {
-      if (selectRegion.toLowerCase() === 'all') {
-        return item.region;
-      } else {
-        return item.region.toLowerCase() === selectRegion.toLowerCase();
-      }
-    });
-
-    setCountries(filterRegion);
-  }, [searchCountriesData, selectRegion]);
-
   // Filter data with input range
+  const handleRangeValue = (value) => {
+    setRangeValue(value);
+  };
+
   useEffect(() => {
     const filterRange = searchCountriesData.filter(
-      (item) => item.population > maxPopulation
+      (item) => item.population > rangeValue
     );
+    console.log(filterRange);
     setCountries(filterRange);
-  }, [searchCountriesData, maxPopulation]);
+  }, [searchCountriesData, rangeValue]);
 
   // Sort data
   const handleSort = (e) => {
     const { value } = e.target;
     setSelectSort(value);
+
     if (value === 'aToZ') {
       const sortedAtoZ = searchCountriesData.sort((a, b) => {
         if (a.name.common < b.name.common) {
@@ -81,9 +75,28 @@ export default function useCountries(maxPopulation) {
       });
       setCountries(sortedZtoA);
     } else {
-      setCountries(countriesData);
+      searchCountriesData.forEach((item) => item);
+      setCountries(searchCountriesData);
     }
   };
+
+  // Filter data with select region
+  const handleRegionChange = (e) => {
+    const { value } = e.target;
+    setSelectRegion(value);
+  };
+
+  useEffect(() => {
+    const filterRegion = searchCountriesData.filter((item) => {
+      if (selectRegion.toLowerCase() === 'all') {
+        return item.region;
+      } else {
+        return item.region.toLowerCase() === selectRegion.toLowerCase();
+      }
+    });
+
+    setCountries(filterRegion);
+  }, [searchCountriesData, selectRegion]);
 
   // Search with country name
   useEffect(() => {
@@ -92,16 +105,8 @@ export default function useCountries(maxPopulation) {
     );
 
     setSearchCountriesData(filterSearch);
+    setCountries(filterSearch);
   }, [countriesData, searchCountries]);
-
-  // Filter all population & make an array
-  useEffect(() => {
-    const populationsArray = [];
-    countriesData.forEach((item) => populationsArray.push(item.population));
-    setTotalPopulationArray(populationsArray);
-  }, [countriesData]);
-
-  // console.log(countries[0]?.name?.common);
 
   return {
     countries,
@@ -110,10 +115,10 @@ export default function useCountries(maxPopulation) {
     searchCountries,
     setSearchCountries,
     selectRegion,
-    setSelectRegion,
-    totalPopulationArray,
+    handleRegionChange,
     selectSort,
-    setSelectSort,
     handleSort,
+    rangeValue,
+    handleRangeValue,
   };
 }
