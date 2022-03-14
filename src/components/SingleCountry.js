@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useThemeContext } from '../contexts/ThemeContext';
 import useCountries from '../hooks/useCountries';
+import styles from '../styles/SingleCountry.module.css';
 import Loading from './Loading';
 
 export default function SingleCountry() {
@@ -9,6 +11,7 @@ export default function SingleCountry() {
   const { countries, loading, error } = useCountries();
   const { countryName } = useParams();
   const navigate = useNavigate();
+  const { dark } = useThemeContext();
 
   useEffect(() => {
     const singleCountry = countries?.find(
@@ -22,11 +25,15 @@ export default function SingleCountry() {
     return <Loading />;
   }
 
-  console.log(countries);
-
   return !loading && !error && countries.length > 0 && findCountry ? (
     <>
-      <h1 className="text-center mt-3 mb-4">{findCountry.name.common}</h1>
+      <h1
+        className={`text-center mt-3 mb-4 ${
+          dark ? styles.dark__title : styles.light__title
+        }`}
+      >
+        {findCountry.name.common}
+      </h1>
       <Row className="align-items-center">
         <Col md={6}>
           <img
@@ -39,7 +46,7 @@ export default function SingleCountry() {
           </Button>
         </Col>
         <Col md={6}>
-          <Table>
+          <Table className={dark ? styles.dark__title : styles.light__title}>
             <tbody>
               <tr>
                 <td>

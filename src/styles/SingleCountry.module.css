@@ -1,11 +1,7 @@
-.dark__brand {
+.dark__title {
   color: var(--white-color) !important;
 }
 
-.light__brand {
+.light__title {
   color: var(--dark-color) !important;
-}
-
-.checked input {
-  cursor: pointer;
 }

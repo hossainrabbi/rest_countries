@@ -23,6 +23,7 @@ export default function NavbarNav() {
           onChange={(e) => setDark(e.target.checked)}
           type="switch"
           id="custom-switch"
+          className={styles.checked}
         />
       </Container>
     </Navbar>
